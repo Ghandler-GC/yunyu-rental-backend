@@ -1,0 +1,29 @@
+/.idea/
+/bitehouse.iml
+# Maven 构建产物
+target/
+*.class
+
+# Docker 挂载的中间件运行时数据(MySQL/Nacos/Redis/RabbitMQ),不应入库
+deploy/dev/data/
+deploy/test/data/
+deploy/prd/**/data/
+
+# 日志与临时文件
+*.log
+*.err
+
+# 本地压缩包与部署证书（证书含私钥，禁止入库）
+*.rar
+deploy/**/cert/*.pem
+
+# 前端依赖与构建产物（如将前端放入同一仓库）
+node_modules/
+dist/
+unpackage/
+
+# IDE / 操作系统临时文件
+.vscode/
+.DS_Store
+Thumbs.db
+*.iml

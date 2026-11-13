@@ -1,0 +1,76 @@
+server:
+  port: 18083
+
+spring:
+  application:
+    name: bite-portal
+  profiles:
+    active: ${RUN_ENV}
+  cloud:
+    nacos:
+      discovery:
+        username: nacos
+        password: bite@123
+        namespace: bitehouse-${RUN_ENV}
+        server-addr: ${NACOS_ADDR}
+      config:
+        username: nacos
+        password: bite@123
+        namespace: bitehouse-${RUN_ENV}
+        server-addr: ${NACOS_ADDR}
+        file-extension: yaml
+        # 共享配置
+        shared-configs:
+          - data-id: share-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-mysql-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-map-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-caffeine-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-sms-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+
+logging:
+  pattern:
+    console: '[%thread] %-5level %logger{36} - %msg%n'
+#server:
+#  port: 18083
+#
+#spring:
+#  application:
+#    name: bite-portal
+#  profiles:
+#    active: ${RUN_ENV:dev}
+#  cloud:
+#    nacos:
+#      # Nacos 已关闭鉴权，不需要 username/password
+#      discovery:
+#        namespace: bitehouse-${spring.profiles.active}
+#        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+#      config:
+#        namespace: bitehouse-${spring.profiles.active}
+#        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+#        file-extension: yaml
+#        # 共享配置
+#        shared-configs:
+#          - data-id: share-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#          - data-id: share-mysql-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#          - data-id: share-map-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#          - data-id: share-caffeine-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#          - data-id: share-sms-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            refresh: true
+#
+#logging:
+#  pattern:
+#    console: '[%thread] %-5level %logger{36} - %msg%n'
+
