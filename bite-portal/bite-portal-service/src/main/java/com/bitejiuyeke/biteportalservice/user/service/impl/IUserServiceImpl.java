@@ -66,6 +66,12 @@ public class IUserServiceImpl implements IUserService {
     private String wechatAppSecret;
 
     /**
+     * 是否开启本地模拟微信登录（仅开发环境使用，生产环境不要开启）
+     */
+    @Value("${wx.applet.mock-enabled:false}")
+    private boolean wechatMockEnabled;
+
+    /**
      * 登录逻辑
      * @param loginDTO 用户登录DTO
      * @return TokenDTO 加令牌
@@ -128,6 +134,24 @@ public class IUserServiceImpl implements IUserService {
         // 2 复用已有的 openid 登录逻辑
         WechatLoginDTO wechatLoginDTO = new WechatLoginDTO();
         wechatLoginDTO.setOpenId(openId.toString());
+        return login(wechatLoginDTO);
+    }
+
+    /**
+     * 本地开发用：使用模拟 openId 登录。
+     * 只有 Nacos 中 wx.applet.mock-enabled=true 时才允许，避免生产环境被滥用。
+     */
+    @Override
+    public TokenDTO loginByWechatMock(String openId) {
+        if (!wechatMockEnabled) {
+            throw new ServiceException("本地模拟微信登录未开启", ResultCode.INVALID_PARA.getCode());
+        }
+        if (StringUtils.isBlank(openId)) {
+            throw new ServiceException("模拟微信openId不能为空", ResultCode.INVALID_PARA.getCode());
+        }
+        log.warn("使用本地模拟微信登录，openId:{}", openId);
+        WechatLoginDTO wechatLoginDTO = new WechatLoginDTO();
+        wechatLoginDTO.setOpenId(openId);
         return login(wechatLoginDTO);
     }
 

@@ -20,6 +20,14 @@ public interface IUserService {
      */
     TokenDTO loginByWechatCode(String code);
 
+    /**
+     * 本地开发用：使用固定的模拟 openId 完成登录。
+     * 仅在 Nacos 配置 wx.applet.mock-enabled=true 时可用。
+     * @param openId 模拟微信 openId
+     * @return 登录令牌
+     */
+    TokenDTO loginByWechatMock(String openId);
+
     String sendCode(String phone);
 
     void edit(UserEditReqDTO userEditReqDTO);

@@ -45,6 +45,16 @@ public class UserController {
     }
 
     /**
+     * 本地开发用：模拟微信登录（受 Nacos wx.applet.mock-enabled 开关控制）
+     * @param wechatLoginDTO 模拟微信 openId
+     * @return token令牌
+     */
+    @PostMapping("/login/wechat/mock")
+    public R<TokenVO> loginByWechatMock(@RequestBody @Validated WechatLoginDTO wechatLoginDTO) {
+        return R.ok(userService.loginByWechatMock(wechatLoginDTO.getOpenId()).convertToVo());
+    }
+
+    /**
      * 发送短信验证码
      * @param phone 手机号
      * @return 验证码

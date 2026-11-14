@@ -91,6 +91,9 @@ public class AppUserServiceImpl implements IAppUserService {
         }
         AppUserDTO appUserDTO = new AppUserDTO();
         BeanUtils.copyProperties(appUser, appUserDTO);
+        // 实体字段是 id，DTO 字段是 userId，BeanUtils 不会自动映射，必须显式赋值。
+        // 否则微信老用户登录时 token 中的 user_id 为 null，网关会返回“令牌验证失败”。
+        appUserDTO.setUserId(appUser.getId());
         // 3 处理手机号
         appUserDTO.setPhoneNumber(AESUtil.decryptHex(appUser.getPhoneNumber()));
         return appUserDTO;
